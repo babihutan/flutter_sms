@@ -115,8 +115,8 @@ class FlutterSmsPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     val sentIntent = PendingIntent.getBroadcast(activity, 0, Intent("SMS_SENT_ACTION"), PendingIntent.FLAG_IMMUTABLE)
     val mSmsManager = SmsManager.getDefault()
     val numbers = phones.split(";")
-    val smscAddr = mSmsManager.getSmscAddress();
-    Log.d("Flutter SMS (kotlin)", smscAddr);
+    String? smscAddr = mSmsManager.getSmscAddress();
+    Log.d("Flutter SMS (kotlin)", smscAddr ?? 'no smsc address');
 
     for (num in numbers) {
       Log.d("Flutter SMS", "msg.length() : " + message.toByteArray().size)
