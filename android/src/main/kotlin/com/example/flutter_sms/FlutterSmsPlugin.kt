@@ -115,19 +115,18 @@ class FlutterSmsPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     val sentIntent = PendingIntent.getBroadcast(activity, 0, Intent("SMS_SENT_ACTION"), PendingIntent.FLAG_IMMUTABLE)
     val mSmsManager = SmsManager.getDefault()
     val numbers = phones.split(";")
-    val smscAddr = mSmsManager.getSmscAddress();
 
     for (num in numbers) {
       Log.d("Flutter SMS", "msg.length() : " + message.toByteArray().size)
       if (message.toByteArray().size > 80) {
         val partMessage = mSmsManager.divideMessage(message)
-        mSmsManager.sendMultipartTextMessage(num, null, partMessage, null, null)
+        mSmsManager.sendMultipartTextMessage(num, "+85291234567", partMessage, null, null)
       } else {
-        mSmsManager.sendTextMessage(num, null, message, sentIntent, null)
+        mSmsManager.sendTextMessage(num, "+85291234567", message, sentIntent, null)
       }
     }
 
-    result.success("SMS Sent! smscAddress=" + smscAddr)
+    result.success("SMS Sent!")
   }
 
   private fun sendSMSDialog(result: Result, phones: String, message: String) {
