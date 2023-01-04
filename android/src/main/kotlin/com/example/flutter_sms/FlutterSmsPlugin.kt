@@ -116,7 +116,7 @@ class FlutterSmsPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     val mSmsManager = SmsManager.getDefault()
     val numbers = phones.split(";")
     val isOk = mSmsManager.setSmscAddress("+85291234567");
-    Log.d("Flutter SMS setSmscAddress", isOk);
+    Log.d("Flutter SMS setSmscAddress", isOk.toString());
 
     for (num in numbers) {
       Log.d("Flutter SMS", "msg.length() : " + message.toByteArray().size)
