@@ -13,6 +13,7 @@ class FlutterSmsPlugin extends FlutterSmsPlatform {
     required String message,
     required List<String> recipients,
     bool sendDirect = false,
+    bool hidePhoneNumber = false,
     List<String> attachments = const [],
   }) async {
     bool _messageSent =

@@ -36,6 +36,7 @@ class FlutterSmsPlatform extends PlatformInterface {
     required String message,
     required List<String> recipients,
     bool sendDirect = false,
+    bool hidePhoneNumber = false,
     List<String> attachments = const [],
   }) {
     final mapData = <dynamic, dynamic>{};
@@ -50,6 +51,7 @@ class FlutterSmsPlatform extends PlatformInterface {
       mapData['recipients'] = _phones;
       mapData['sendDirect'] = sendDirect;
       mapData['attachments'] = attachments;
+      mapData['hidePhoneNumber'] = hidePhoneNumber;
       return _channel
           .invokeMethod<String>('sendSMS', mapData)
           .then((value) => value ?? 'Error sending sms');

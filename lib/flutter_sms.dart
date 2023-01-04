@@ -7,6 +7,7 @@ Future<String> sendSMS({
   required String message,
   required List<String> recipients,
   bool sendDirect = false,
+  bool hidePhoneNumber = false,
   List<String> attachments = const [],
 }) =>
     FlutterSmsPlatform.instance.sendSMS(
@@ -14,6 +15,7 @@ Future<String> sendSMS({
       recipients: recipients,
       sendDirect: sendDirect,
       attachments: attachments,
+      hidePhoneNumber: hidePhoneNumber,
     );
 
 /// Launch SMS Url Scheme on all platforms
