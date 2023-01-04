@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'dart:io' show Platform;
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import 'user_agent/io.dart' if (dart.library.html) 'user_agent/web.dart';
 
 const MethodChannel _channel = MethodChannel('flutter_sms');
@@ -38,6 +36,7 @@ class FlutterSmsPlatform extends PlatformInterface {
     required String message,
     required List<String> recipients,
     bool sendDirect = false,
+    List<String> attachments = const [],
   }) {
     final mapData = <dynamic, dynamic>{};
     mapData['message'] = message;
@@ -50,6 +49,7 @@ class FlutterSmsPlatform extends PlatformInterface {
       String _phones = recipients.join(';');
       mapData['recipients'] = _phones;
       mapData['sendDirect'] = sendDirect;
+      mapData['attachments'] = attachments;
       return _channel
           .invokeMethod<String>('sendSMS', mapData)
           .then((value) => value ?? 'Error sending sms');
