@@ -29,16 +29,16 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _sendSMS(List<String> recipients) async {
-    try {
-      String _result = await sendSMS(
-        message: _controllerMessage.text,
-        recipients: recipients,
-        sendDirect: sendDirect,
-      );
-      setState(() => _message = _result);
-    } catch (error) {
-      setState(() => _message = error.toString());
-    }
+    // try {
+    //   String _result = await sendSMS(
+    //     message: _controllerMessage.text,
+    //     recipients: recipients,
+    //     sendDirect: sendDirect,
+    //   );
+    //   setState(() => _message = _result);
+    // } catch (error) {
+    //   setState(() => _message = error.toString());
+    // }
   }
 
   Future<bool> _canSendSMS() async {
