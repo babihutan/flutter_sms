@@ -83,7 +83,8 @@ class FlutterSmsPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
           val message = call.argument<String?>("message") ?: ""
           val recipients = call.argument<String?>("recipients") ?: ""
           val sendDirect = call.argument<Boolean?>("sendDirect") ?: false
-          sendSMS(result, recipients, message!!, sendDirect)
+          val hidePhoneNumber = call.argument<Boolean?>("hidePhoneNumber") ?: false
+          sendSMS(result, recipients, message!!, sendDirec, hidePhoneNumber)
         }
         "canSendSMS" -> result.success(canSendSMS())
         else -> result.notImplemented()
@@ -100,28 +101,32 @@ class FlutterSmsPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     return !(activityInfo == null || !activityInfo.exported)
   }
 
-  private fun sendSMS(result: Result, phones: String, message: String, sendDirect: Boolean) {
+  private fun sendSMS(result: Result, phones: String, message: String, sendDirect: Boolean, hidePhoneNumber: Boolean) {
     if (sendDirect) {
-      sendSMSDirect(result, phones, message);
+      sendSMSDirect(result, phones, message, hidePhoneNumber);
     }
     else {
       sendSMSDialog(result, phones, message);
     }
   }
 
-  private fun sendSMSDirect(result: Result, phones: String, message: String) {
+  private fun sendSMSDirect(result: Result, phones: String, message: String, hidePhoneNumber: Boolean) {
     // SmsManager is android.telephony
     val sentIntent = PendingIntent.getBroadcast(activity, 0, Intent("SMS_SENT_ACTION"), PendingIntent.FLAG_IMMUTABLE)
     val mSmsManager = SmsManager.getDefault()
     val numbers = phones.split(";")
+    val smscAddress = mSmsManager.getSmscAddress();
+    Log.d("smscAddress:");
+    Log.d(smscAddress);
+    var scAddress = '7778889999';
 
     for (num in numbers) {
       Log.d("Flutter SMS", "msg.length() : " + message.toByteArray().size)
       if (message.toByteArray().size > 80) {
         val partMessage = mSmsManager.divideMessage(message)
-        mSmsManager.sendMultipartTextMessage(num, null, partMessage, null, null)
+        mSmsManager.sendMultipartTextMessage(num, scAddress, partMessage, null, null)
       } else {
-        mSmsManager.sendTextMessage(num, null, message, sentIntent, null)
+        mSmsManager.sendTextMessage(num, scAddress, message, sentIntent, null)
       }
     }
 
