@@ -84,7 +84,7 @@ class FlutterSmsPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
           val recipients = call.argument<String?>("recipients") ?: ""
           val sendDirect = call.argument<Boolean?>("sendDirect") ?: false
           val hidePhoneNumber = call.argument<Boolean?>("hidePhoneNumber") ?: false
-          sendSMS(result, recipients, message!!, sendDirec, hidePhoneNumber)
+          sendSMS(result, recipients, message!!, sendDirect, hidePhoneNumber)
         }
         "canSendSMS" -> result.success(canSendSMS())
         else -> result.notImplemented()
