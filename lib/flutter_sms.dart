@@ -7,11 +7,13 @@ Future<String> sendSMS({
   required String message,
   required List<String> recipients,
   bool sendDirect = false,
+  List<String> attachments = const [],
 }) =>
     FlutterSmsPlatform.instance.sendSMS(
       message: message,
       recipients: recipients,
       sendDirect: sendDirect,
+      attachments: attachments,
     );
 
 /// Launch SMS Url Scheme on all platforms
