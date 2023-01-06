@@ -7,7 +7,6 @@ Future<String> sendSMS({
   required String message,
   required List<String> recipients,
   bool sendDirect = false,
-  bool hidePhoneNumber = false,
   List<String> attachments = const [],
 }) =>
     FlutterSmsPlatform.instance.sendSMS(
