@@ -83,8 +83,7 @@ class FlutterSmsPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
           val message = call.argument<String?>("message") ?: ""
           val recipients = call.argument<String?>("recipients") ?: ""
           val sendDirect = call.argument<Boolean?>("sendDirect") ?: false
-          val hidePhoneNumber = call.argument<Boolean?>("hidePhoneNumber") ?: false
-          sendSMS(result, recipients, message!!, sendDirect, hidePhoneNumber)
+          sendSMS(result, recipients, message!!, sendDirect)
         }
         "canSendSMS" -> result.success(canSendSMS())
         else -> result.notImplemented()
@@ -101,30 +100,28 @@ class FlutterSmsPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     return !(activityInfo == null || !activityInfo.exported)
   }
 
-  private fun sendSMS(result: Result, phones: String, message: String, sendDirect: Boolean, hidePhoneNumber: Boolean) {
+  private fun sendSMS(result: Result, phones: String, message: String, sendDirect: Boolean) {
     if (sendDirect) {
-      sendSMSDirect(result, phones, message, hidePhoneNumber);
+      sendSMSDirect(result, phones, message);
     }
     else {
       sendSMSDialog(result, phones, message);
     }
   }
 
-  private fun sendSMSDirect(result: Result, phones: String, message: String, hidePhoneNumber: Boolean) {
+  private fun sendSMSDirect(result: Result, phones: String, message: String) {
     // SmsManager is android.telephony
     val sentIntent = PendingIntent.getBroadcast(activity, 0, Intent("SMS_SENT_ACTION"), PendingIntent.FLAG_IMMUTABLE)
     val mSmsManager = SmsManager.getDefault()
     val numbers = phones.split(";")
-    val isOk = mSmsManager.setSmscAddress("+85291234567");
-    Log.d("Flutter SMS setSmscAddress", isOk.toString());
 
     for (num in numbers) {
       Log.d("Flutter SMS", "msg.length() : " + message.toByteArray().size)
       if (message.toByteArray().size > 80) {
         val partMessage = mSmsManager.divideMessage(message)
-        mSmsManager.sendMultipartTextMessage(num, "+85291234567", partMessage, null, null)
+        mSmsManager.sendMultipartTextMessage(num, null, partMessage, null, null)
       } else {
-        mSmsManager.sendTextMessage(num, "+85291234567", message, sentIntent, null)
+        mSmsManager.sendTextMessage(num, null, message, sentIntent, null)
       }
     }
 

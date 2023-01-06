@@ -15,7 +15,6 @@ Future<String> sendSMS({
       recipients: recipients,
       sendDirect: sendDirect,
       attachments: attachments,
-      hidePhoneNumber: hidePhoneNumber,
     );
 
 /// Launch SMS Url Scheme on all platforms
