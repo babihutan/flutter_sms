@@ -16,6 +16,8 @@ class FlutterSmsPlatform extends PlatformInterface {
 
   static FlutterSmsPlatform _instance = FlutterSmsPlatform();
 
+  //TODO:  Kotlin tutorial, Flutter plug-in tutorial
+
   /// The default instance of [FlutterSmsPlatform] to use.
   ///
   /// Defaults to [MethodChannelFlutterSmsPlatform].
